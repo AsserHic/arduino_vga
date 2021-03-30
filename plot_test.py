@@ -22,6 +22,9 @@ def line(matrix, x1, y1, x2, y2):
     matrix[y2][x2] = 1
 
 def house(matrix):
+    DOOR_WIDTH = 5
+    EAVES_WIDTH = 4
+    WINDOW_HEIGHT = 9
     WINDOW_WIDTH = 5
 
     Y_CHIMNEY_TOP = 3
@@ -31,17 +34,16 @@ def house(matrix):
     Y_GROUND = 59
     Y_ROOF = 20
     Y_TOP = 0
-    Y_WINDOW_DOWN = 38
     Y_WINDOW_TOP = 27
 
     X_CHIMNEY_LEFT = 6
     X_CHIMNEY_RIGHT = X_CHIMNEY_LEFT + 2
     X_DOOR_LEFT = 15
-    X_DOOR_RIGHT = X_DOOR_LEFT + 5
+    X_DOOR_RIGHT = X_DOOR_LEFT + DOOR_WIDTH
     X_LEFT = 0
     X_RIGHT = 29
-    X_WALL_LEFT = 5
-    X_WALL_RIGHT = 24
+    X_WALL_LEFT = X_LEFT + EAVES_WIDTH
+    X_WALL_RIGHT = X_RIGHT - EAVES_WIDTH
     X_MID = round((X_RIGHT - X_LEFT) / 2)
     X_WINDOW_LEFT = 8
 
@@ -57,12 +59,13 @@ def house(matrix):
 
     for x in [0, WINDOW_WIDTH + 3]:
         right = X_WINDOW_LEFT + WINDOW_WIDTH + x
+        top   = Y_WINDOW_TOP + WINDOW_HEIGHT
         x_mid = right - int(WINDOW_WIDTH / 2)
-        line(matrix, X_WINDOW_LEFT + x, Y_WINDOW_DOWN, X_WINDOW_LEFT + x, Y_WINDOW_TOP)
-        line(matrix, X_WINDOW_LEFT + x, Y_WINDOW_DOWN, right,             Y_WINDOW_DOWN)
+        line(matrix, X_WINDOW_LEFT + x, top,           X_WINDOW_LEFT + x, Y_WINDOW_TOP)
+        line(matrix, X_WINDOW_LEFT + x, top,           right,             top)
         line(matrix, X_WINDOW_LEFT + x, Y_WINDOW_TOP,  right,             Y_WINDOW_TOP)
-        line(matrix, right,             Y_WINDOW_TOP,  right,             Y_WINDOW_DOWN)
-        line(matrix, x_mid,             Y_WINDOW_TOP,  x_mid,             Y_WINDOW_DOWN)
+        line(matrix, right,             Y_WINDOW_TOP,  right,             top)
+        line(matrix, x_mid,             Y_WINDOW_TOP,  x_mid,             top)
 
     line(matrix, X_DOOR_LEFT,  Y_GROUND,   X_DOOR_LEFT,  Y_DOOR_TOP)
     line(matrix, X_DOOR_RIGHT, Y_GROUND,   X_DOOR_RIGHT, Y_DOOR_TOP)
