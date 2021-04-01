@@ -5,22 +5,19 @@
 const int PIN_X = A1;
 const int PIN_Y = A2;
 
-const int BUFFER_LENGTH = 10;
+const int BUFFER_LENGTH = 80;
 uint8_t xBuffer[BUFFER_LENGTH];
 uint8_t yBuffer[BUFFER_LENGTH];
 int bufferPos = 0;
 
-int limitsX[2];
-int limitsY[2];
+int limitsX[] = {400, 600};
+int limitsY[] = {400, 600};
 
 VGAX vga;
 
 void setup() {
   pinMode(PIN_X, INPUT);
   pinMode(PIN_Y, INPUT);
-
-  limitsX[0] = limitsX[1] = analogRead(PIN_X);
-  limitsY[0] = limitsY[1] = analogRead(PIN_Y);
 
   // Initialize buffer
   for (int i = 0; i < BUFFER_LENGTH; i++) {
@@ -48,7 +45,7 @@ void measureSignal() {
   limitsY[1] = max(limitsY[1], signalY);
 
   valueX  = map(signalX, limitsX[0], limitsX[1], 0, 119);
-  valueY  = map(signalX, limitsX[0], limitsX[1], 0, 59);
+  valueY  = map(signalY, limitsY[0], limitsY[1], 0, 59);
 
   if (xBuffer[bufferPos] != valueX || yBuffer[bufferPos] != valueY) {
     bufferPos = (bufferPos + 1) % BUFFER_LENGTH;
@@ -60,7 +57,7 @@ void measureSignal() {
 void plotBuffer() {
   int bufferLast = (bufferPos + 1) % BUFFER_LENGTH;
 
-  vga.putpixel(xBuffer[bufferLast], yBuffer[bufferLast], 1);
+  vga.putpixel(xBuffer[bufferLast], yBuffer[bufferLast], 0);
   vga.putpixel(xBuffer[bufferPos],  yBuffer[bufferPos],  2);
 }
 
