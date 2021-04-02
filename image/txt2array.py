@@ -8,6 +8,7 @@ def read_image():
     cols = []
     for line in fileinput.input():
         if row < 0:
+           print(line.strip())
            row = 0
            continue
         elements = line.split()
@@ -17,7 +18,7 @@ def read_image():
            yield cols
            cols = []
         cols.append(elements[2])
-        yield cols
+    yield cols
 
 def create_color_map(rows):
     colors = set()
@@ -26,25 +27,31 @@ def create_color_map(rows):
     if len(colors) != 4:
         print(f"Expected exactly 4 colors: {', '.join(colors)}.")
         exit(1)
-    ordered_colors = sorted(colors)
-    return {
-       ordered_colors[0]: 1,
-       ordered_colors[1]: 3,
-       ordered_colors[2]: 2,
-       ordered_colors[3]: 0,
-    }
+    return {color: i for i, color in enumerate(sorted(colors, reverse=True))}
 
 def collapse_pixels(rows, color_map):
     for row in rows:
         row = [color_map[value] for value in row]
         collapsed = []
         for i in range(0, len(row), 4):
-            chunk = row[i:i + 4]
-            collapsed.append(sum(chunk))
+            collapsed.append(sum([
+                row[i] * 64,
+                row[i + 1] * 16,
+                row[i + 2] * 4,
+                row[i + 3],
+            ]))
         yield collapsed
+
+def print_array(rows):
+    print('[')
+    for row in rows:
+        row = [str(value).rjust(3, ' ') for value in row]
+        print(f"    [{', '.join(row)}],")
+    print(']')
 
 if __name__ == '__main__':
     rows = [row for row in read_image()]
     color_map = create_color_map(rows)
+    print(f"# Original colors: {color_map}")
     rows = [row for row in collapse_pixels(rows, color_map)]
-    print(rows)
+    print_array(rows)
