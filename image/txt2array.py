@@ -17,7 +17,7 @@ def read_image():
            row = pos[1]
            yield cols
            cols = []
-        cols.append(elements[2])
+        cols.append(elements[2][1:])
     yield cols
 
 def create_color_map(rows):
@@ -27,7 +27,13 @@ def create_color_map(rows):
     if len(colors) != 4:
         print(f"Expected exactly 4 colors: {', '.join(colors)}.")
         exit(1)
-    return {color: i for i, color in enumerate(sorted(colors, reverse=True))}
+    sorted_colors = sorted(colors)
+    return {
+        sorted_colors[0]: 0,
+        sorted_colors[1]: 2,
+        sorted_colors[2]: 3,
+        sorted_colors[3]: 1,
+    }
 
 def collapse_pixels(rows, color_map):
     for row in rows:
@@ -43,11 +49,11 @@ def collapse_pixels(rows, color_map):
         yield collapsed
 
 def print_array(rows):
-    print('[')
+    print(f"const unsigned char img_data[{len(rows[0])} * {len(rows)}] PROGMEM={{")
     for row in rows:
         row = [str(value).rjust(3, ' ') for value in row]
-        print(f"    [{', '.join(row)}],")
-    print(']')
+        print(f"  {','.join(row)},")
+    print('};')
 
 if __name__ == '__main__':
     rows = [row for row in read_image()]
