@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import fileinput
+from typing import Dict, List
 
 
 def read_image():
@@ -8,19 +9,20 @@ def read_image():
     cols = []
     for line in fileinput.input():
         if row < 0:
-           print(line.strip())
-           row = 0
-           continue
+            print(line.strip())
+            row = 0
+            continue
         elements = line.split()
         pos = [int(value) for value in elements[0][:-1].split(',')]
         if pos[1] != row:
-           row = pos[1]
-           yield cols
-           cols = []
+            row = pos[1]
+            yield cols
+            cols = []
         cols.append(elements[2][1:])
     yield cols
 
-def create_color_map(rows):
+
+def create_color_map(rows: List[List[str]]):
     colors = set()
     for row in rows:
         colors.update(row)
@@ -35,9 +37,11 @@ def create_color_map(rows):
         sorted_colors[3]: 1,
     }
 
-def collapse_pixels(rows, color_map):
-    for row in rows:
-        row = [color_map[value] for value in row]
+
+def collapse_pixels(rows: List[List[str]],
+                    color_map: Dict[str, int]):
+    for row_original in rows:
+        row = [color_map[value] for value in row_original]
         collapsed = []
         for i in range(0, len(row), 4):
             collapsed.append(sum([
@@ -48,16 +52,22 @@ def collapse_pixels(rows, color_map):
             ]))
         yield collapsed
 
-def print_array(rows):
+
+def print_array(rows: List[List[int]]):
     print(f"const unsigned char img_data[{len(rows[0])} * {len(rows)}] PROGMEM={{")
     for row in rows:
-        row = [str(value).rjust(3, ' ') for value in row]
-        print(f"  {','.join(row)},")
+        row_formatted = [str(value).rjust(3, ' ') for value in row]
+        print(f"  {','.join(row_formatted)},")
     print('};')
 
-if __name__ == '__main__':
+
+def _main():
     rows = [row for row in read_image()]
     color_map = create_color_map(rows)
     print(f"# Original colors: {color_map}")
     rows = [row for row in collapse_pixels(rows, color_map)]
     print_array(rows)
+
+
+if __name__ == '__main__':
+    _main()

@@ -1,6 +1,9 @@
 #include <VGAX.h>
 #include <VGAXUtils.h>
 
+#define GREEN  2
+#define YELLOW 3
+
 VGAX vga;
 
 void setup() {
@@ -8,18 +11,20 @@ void setup() {
 }
 
 void loop() {
-  draw_house();
-  vga.delay(4000);
+  drawHouse();
+  vga.delay(2000);
+  turnLightsOn();
+  vga.delay(2000);
   vga.clear(0);
   vga.delay(1000);
 }
 
 void line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1) {
-  VGAXUtils::draw_line(x0,  y0, x1, y1, 2);
-  vga.delay(1000);
+  VGAXUtils::draw_line(x0,  y0, x1, y1, GREEN);
+  vga.delay(800);
 }
 
-void draw_house() {
+void drawHouse() {
   uint8_t door_width    = 17;
   uint8_t eaves_width   = 8;
   uint8_t window_height = 10;
@@ -59,11 +64,11 @@ void draw_house() {
   line(x_door_left,  y_door_top,  x_door_right,     y_door_top);
   line(x_door_right, y_door_lock, x_door_right - 3, y_door_lock);
 
-  draw_window(x_chimney_left, y_roof + 5, window_height, window_width);
-  draw_window(x_mid,          y_roof + 5, window_height, window_width);
+  drawWindow(x_chimney_left, y_roof + 5, window_height, window_width);
+  drawWindow(x_mid,          y_roof + 5, window_height, window_width);
 }
 
-void draw_window(uint8_t x_left, uint8_t y_top, uint8_t height, uint8_t width) {
+void drawWindow(uint8_t x_left, uint8_t y_top, uint8_t height, uint8_t width) {
   uint8_t x_right = x_left + width;
   uint8_t x_mid   = (x_left + x_right) / 2;
   uint8_t y_down  = y_top + height;
@@ -73,4 +78,11 @@ void draw_window(uint8_t x_left, uint8_t y_top, uint8_t height, uint8_t width) {
   line(x_left,  y_top,  x_right, y_top);
   line(x_right, y_down, x_right, y_top);
   line(x_mid,   y_down, x_mid,   y_top);
+}
+
+void turnLightsOn() {
+  VGAXUtils::draw_rect(20, 26, 9, 8, YELLOW, YELLOW);
+  vga.putpixel(29, 34, YELLOW);
+  VGAXUtils::draw_rect(31, 26, 10, 8, YELLOW, YELLOW);
+  vga.putpixel(41, 34, YELLOW);
 }

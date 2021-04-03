@@ -66,10 +66,10 @@ const unsigned char img_data[30 * 60] PROGMEM={
 VGAX vga;
 
 void setup() {
-  vga.begin();
+  vga.begin(false);
   vga.copy((byte*)img_data);
 }
 
 void loop() {
-  vga.delay(100);
+  vga.delay(1000);
 }

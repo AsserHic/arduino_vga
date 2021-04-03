@@ -29,11 +29,12 @@ void setup() {
 }
 
 void loop() {
-  measureSignal();  
-  plotBuffer();
+  if (measureSignal()) {
+    plotBuffer();
+  }
 }
 
-void measureSignal() {
+boolean measureSignal() {
   int signalX = analogRead(PIN_X);
   int signalY = analogRead(PIN_Y);
   int valueX;
@@ -51,7 +52,9 @@ void measureSignal() {
     bufferPos = (bufferPos + 1) % BUFFER_LENGTH;
     xBuffer[bufferPos] = valueX;
     yBuffer[bufferPos] = valueY;
+    return true;
   }
+  return false;
 }
 
 void plotBuffer() {
