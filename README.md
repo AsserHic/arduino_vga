@@ -6,7 +6,14 @@ the circuit schematics explained on its repository.
 
 ## house
 
-Draws a simple green line house line by line.
+Draws a simple green line house line by line. This is my tribute to the
+program that I saw in late 1980s. My father got a computer from his work
+and we had that over a weekend. One of his colleagues had programmed a
+somewhat similar program, which rendered a green house on that monochrome
+display. I was impressed and curious at the same time. I wanted to understand
+how that machine worked and to learn some programming myself. There was a
+BASIC interpreter included and I was hooked. The line art demo had changed
+my life for good.
 
 
 ## image
