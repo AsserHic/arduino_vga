@@ -5,7 +5,7 @@ inspired by [VGAX library](https://github.com/smaffer/vgax) and I've followed
 the circuit schematics explained on its repository.
 
 You can see this library in action on my YouTube channel.
-<iframe width="560" height="315" src="https://www.youtube.com/embed/3RTuhCZvxpw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+https://youtu.be/3RTuhCZvxpw
 
 ## house
 
