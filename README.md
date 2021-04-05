@@ -4,6 +4,9 @@ Video Graphics Array (VGA) tests for Arduino. These small applications are
 inspired by [VGAX library](https://github.com/smaffer/vgax) and I've followed
 the circuit schematics explained on its repository.
 
+You can see this library in action on my YouTube channel.
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3RTuhCZvxpw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## house
 
 Draws a simple green line house line by line. This is my tribute to the
